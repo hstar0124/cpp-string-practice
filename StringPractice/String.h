@@ -25,12 +25,19 @@ public:
 	bool Emtpy() const;
 
 	String SubStr(size_t index = 0, size_t len = npos) const;
+	String Replace(size_t index, size_t len, const char*);
+	int Compare(const char*);
+	int Compare(String);
+	size_t Copy(char* dest, size_t len, size_t index = 0) const;
+	size_t Find(const char* cstr, size_t index = 0);
 
 	void Print() const;
 
 private:
 	size_t StrLen(const char*);
 	void StrCpy(char*, const char*);
+	void StrCpy(char*, const char*, int);
+	void StrCat(char*, const char*);
 	bool CheckOutofRange(size_t) const;
 
 private:

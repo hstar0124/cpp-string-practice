@@ -206,15 +206,102 @@ String String::SubStr(size_t index, size_t len) const
 	return substr;
 }
 
-
-void String::Print() const
+String String::Replace(size_t index, size_t len, const char* cstr)
 {
-	for (int i = 0; i < _size; i++)
-	{
-		cout << _data[i];
-	}
-	cout << endl;
+	if (index >= _size)
+		assert(false);
+
+	size_t newSize = _size - len + StrLen(cstr);
+	size_t newCapacity = newSize + 1;
+
+	char* newData = new char[newCapacity];
+
+	StrCpy(newData, _data, index);
+
+	StrCat(newData, cstr);
+
+	StrCat(newData, _data + index + len);
+
+	delete[] _data;
+	_data = newData;
+	_size = newSize;
+	_capacity = newCapacity;
+
+	return *this;
 }
+
+int String::Compare(const char* cstr)
+{
+
+	size_t len1 = Size();
+	size_t len2 = StrLen(cstr);
+
+	// 문자열 길이가 다른 경우
+	if (len1 != len2)
+		return len1 > len2 ? 1 : -1;
+
+	for (size_t i = 0; i < len1; i++)
+	{
+		// ASCII 값 차이로 판단
+		if (_data[i] != cstr[i])
+			return _data[i] > cstr[i] ? 1 : -1;
+	}
+
+	// 두 문자열이 같은 경우
+	return 0;
+	
+}
+
+int String::Compare(String str)
+{
+	return Compare(str._data);
+}
+
+size_t String::Copy(char* dest, size_t len, size_t index) const
+{
+	if (index >= _size)
+		return 0;
+
+	size_t copyLen = len < (_size - index) ? len : (_size - index);
+
+	for (size_t i = 0; i < copyLen; i++)
+		dest[i] = _data[index + i];
+
+	return copyLen;
+}
+
+size_t String::Find(const char* cstr, size_t index)
+{
+	if (index >= _size)
+		return npos;
+
+	if (cstr == nullptr || *cstr == '\0')
+		return npos;
+
+	size_t strLength = StrLen(cstr);
+
+	const char* startSearch = _data + index;
+
+	while (*startSearch != '\0') 
+	{
+		const char* p1 = startSearch;
+		const char* p2 = cstr;
+
+		while (*p1 != '\0' && *p2 != '\0' && *p1 == *p2)
+		{
+			p1++;
+			p2++;
+		}
+
+		if (*p2 == '\0')
+			return startSearch - _data;
+
+		startSearch++;
+	}
+
+	return npos;
+}
+
 
 size_t String::StrLen(const char* cstr)
 {
@@ -232,6 +319,7 @@ size_t String::StrLen(const char* cstr)
 	return size;
 }
 
+
 void String::StrCpy(char* dest, const char* src)
 {
 	for (int i = 0; i < _size; i++)
@@ -240,9 +328,48 @@ void String::StrCpy(char* dest, const char* src)
 		dest++;
 		src++;
 	}
+	*dest = '\0';
+}
+
+void String::StrCpy(char* dest, const char* src, int index)
+{
+	for (int i = 0; i < index; i++)
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+
+	*dest = '\0';
+}
+
+void String::StrCat(char* dest, const char* src)
+{
+	while (*dest != '\0')
+		dest++;
+
+	while (*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+
+	*dest = '\0';
 }
 
 bool String::CheckOutofRange(size_t index) const
 {
 	return (index >= _size);
+}
+
+
+
+void String::Print() const
+{
+	for (int i = 0; i < _size; i++)
+	{
+		cout << _data[i];
+	}
+	cout << endl;
 }

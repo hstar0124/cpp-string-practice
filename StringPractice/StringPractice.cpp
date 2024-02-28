@@ -32,6 +32,29 @@ int main()
 
     String str4 = str1.SubStr();
     str4.Print();
+    String str5 = str1.SubStr(2);
+    str5.Print();
+    String str6 = str1.SubStr(2, 1);
+    str6.Print();
+
+    String str10 = "BomBom";
+    str10.Replace(3, 2, "TEST");
+    str10.Print();
+
+    String compare1 = "compare";
+    String compare2 = "compare";
+    String compare3 = "compare1";
+    String compare4 = "appleea";
+
+    cout << compare1.Compare(compare2) << endl;
+    cout << compare1.Compare(compare3) << endl;
+    cout << compare1.Compare(compare4) << endl;
+
+    cout << endl;
+    cout << compare1.Find(nullptr) << endl;
+    cout << compare1.Find("o") << endl;
+    cout << compare1.Find("o", 3) << endl;
+    cout << compare4.Find("ea") << endl;
 
 }
 
