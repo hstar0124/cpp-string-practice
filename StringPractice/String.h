@@ -1,5 +1,41 @@
 #pragma once
 
+template<typename T>
+class MyIterator
+{
+public:
+	MyIterator();
+	MyIterator(T* ptr);
+	~MyIterator();
+
+	void operator++() { ptr++; }
+	void operator++(int) { ++ptr; }
+	T& operator*() { return *ptr; }
+	bool operator==(const MyIterator& other) { return ptr == other.ptr; }
+	bool operator!=(const MyIterator& other) { return ptr != other.ptr; }
+
+private:
+	T* ptr;
+};
+
+template<typename T>
+inline MyIterator<T>::MyIterator()
+	: ptr(nullptr)
+{
+}
+
+template<typename T>
+inline MyIterator<T>::MyIterator(T* ptr)
+	: ptr(ptr)
+{
+}
+
+template<typename T>
+inline MyIterator<T>::~MyIterator()
+{
+}
+
+
 class String
 {
 public:
@@ -7,6 +43,10 @@ public:
 	String(const char*);
 	String(const String&);
 	~String();
+
+	typedef MyIterator<char> iterator;
+	iterator Begin() { return iterator(_data); }
+	iterator End() { return iterator(_data + _size); }
 
 	size_t Size() const;
 	size_t Capacity() const;
@@ -30,6 +70,9 @@ public:
 	int Compare(String);
 	size_t Copy(char* dest, size_t len, size_t index = 0) const;
 	size_t Find(const char* cstr, size_t index = 0);
+
+	void PushBack(char c);
+	void PopBack();
 
 	void Print() const;
 

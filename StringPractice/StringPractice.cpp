@@ -56,5 +56,33 @@ int main()
     cout << compare1.Find("o", 3) << endl;
     cout << compare4.Find("ea") << endl;
 
+
+    String pushPop = "Test Push Pop Back";
+    pushPop.PushBack('!');
+    pushPop.Print();
+    pushPop.PopBack();
+    pushPop.Print();
+    cout << endl;
+
+    String iteratorTest = "Iterator Test";
+    String::iterator it;
+    for (it = iteratorTest.Begin(); it != iteratorTest.End(); it++)
+    {
+        cout << *it;
+        if (*it == 'o')
+            break;
+    }
+
+    if (it != iteratorTest.End())
+    {
+        cout << "찾음" << endl;
+    }
+    else
+    {
+        cout << "못 찾음" << endl;
+    }
+    cout << endl;
+
+
 }
 

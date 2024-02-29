@@ -32,6 +32,7 @@ String::~String()
 	delete[] _data;
 }
 
+
 size_t String::Size() const
 {
 	return _size;
@@ -302,6 +303,31 @@ size_t String::Find(const char* cstr, size_t index)
 	return npos;
 }
 
+void String::PushBack(char c)
+{
+	size_t newSize = _size + 1;
+	size_t newCapacity = _capacity + 1;
+	char* newData = new char[newCapacity];
+
+	StrCpy(newData, _data);
+	
+	newData[_size] = c;
+	newData[newCapacity-1] = '\0';
+
+	delete[] _data;
+	
+	_data = newData;
+	_size = newSize;
+	_capacity = newCapacity;
+}
+
+void String::PopBack()
+{
+	int newSize = _size - 1;
+	_data[newSize] = '\0';
+	_size = newSize;
+}
+
 
 size_t String::StrLen(const char* cstr)
 {
@@ -373,3 +399,4 @@ void String::Print() const
 	}
 	cout << endl;
 }
+
